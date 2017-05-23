@@ -2,7 +2,7 @@
 
 This App gives a Graphical Representation of the Data stored in any format. In this particular Implementation **JSON** format has been   used. This App uses **`Node.js` and `D3.js` Frameworks** as it follows.
 
-> If you don't have any prior idea about these frameworks then refer to [Node.js](https://nodejs.org/en/) or [D3.js](https://d3js.org/).
+    If you don't have any prior idea about these frameworks then refer to [Node.js](https://nodejs.org/en/) or [D3.js](https://d3js.org/).
 
 ## Different Modules Of this App
 
@@ -17,15 +17,15 @@ This App gives a Graphical Representation of the Data stored in any format. In t
    * fs - To access the File System    
   
   Modules are imported as follows  
-  > _var http = require('http');_
+      _var http = require('http');_
 
   Firstly, Start by `Creating a HTTP server`. It is created as follows  
   
-  > _http.createServer(function(req, res){_    
-  >     _res.writeHead(404,{'Content-Type':'text/html'});_  
-  >     _res.end();_  
-  > _}).listen(8080);_  
+       _http.createServer(function(req, res){_    
+           _res.writeHead(404,{'Content-Type':'text/html'});_  
+           _res.end();_  
+       _}).listen(8080);_  
   
   But This won't Suffice our needs We need More Functionalities to be provided by our Server.  
   
-  > **Note:-** Our Front end/Client Side Contains Both HTML and CSS hence The Write Head Is Varying.  
+      **Note:-** Our Front end/Client Side Contains Both HTML and CSS hence The Write Head Is Varying.  
