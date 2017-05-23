@@ -6,13 +6,12 @@ This App gives a Graphical Representation of the Data stored in any format. In t
 
 ## Different Modules Of this App
 
-> 1. Server Module
-> 2. Client Module
-> 3. Front End
+    1. Server Module
+    2. Client Module
+    3. Front End
 
 ### 1. Server Module
-  The server module is a javascript application(`Node.js` application mainly).   
-  It Uses `3 inbuilt modules` present in the `Node.js` framework namely:-  
+  The server module is a javascript application(`Node.js` application mainly). It Uses `3 inbuilt modules` present in the `Node.js` framework namely:-  
    * http - To parse HTTP requests  
    * url - To parse and use the URL requests  
    * fs - To access the File System    
