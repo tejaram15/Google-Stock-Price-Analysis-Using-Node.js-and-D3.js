@@ -20,16 +20,16 @@ This App gives a Graphical Representation of the Data stored in any format. In t
   
 Modules are imported as follows:-
     
-    _var http = require('http');_
-    _var url = require('url');_
-    _var fs = require('fs');_
+    var http = require('http');
+    var url = require('url');
+    var fs = require('fs');
 
 Firstly, Start by `Creating a HTTP server`. It is created as follows  
 
-    _http.createServer(function(req, res){_    
-       _res.writeHead(404,{'Content-Type':'text/html'});_  
-       _res.end();_  
-    _}).listen(8080);_  
+    http.createServer(function(req, res){_    
+       res.writeHead(404,{'Content-Type':'text/html'});  
+       res.end();  
+    }).listen(8080);  
 
 But This won't Suffice our needs We need More Functionalities to be provided by our Server. Hence we use the `URL` Parser to Relate the Webpage to a specific Filename to be opened in the Local Computer. Also, we append a `.` to the url to search for the file in the same directory or append it with `\path\` to search in any specific directory.
 
