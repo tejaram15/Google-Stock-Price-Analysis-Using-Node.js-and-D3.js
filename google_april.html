@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+    <title>Google April Monitering</title>
+    <link rel="stylesheet" href="w3.css">
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <style>
+        body {font-family: "Lato", sans-serif}
+        .mySlides {display: none}
+    </style>
+    <head>
+        <script src="https://d3js.org/d3.v3.js"></script>
+        <style>
+         body { font: 12px Arial;}
+
+        path { 
+            stroke: steelblue;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: grey;
+            stroke-width: 1;
+            shape-rendering: crispEdges;
+        }
+        </style>
+    </head>
+    
+    
+    
+    
+    <body>
+
+    <!-- Navbar -->
+    <div class="w3-top">
+      <div class="w3-bar w3-black w3-card-2">
+        <a href="StartPage.html" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+        <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT</a>
+        <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONTACT</a>
+        <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+      </div>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+        <a href="StartPage.html" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+        <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT</a>
+        <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONTACT</a>
+    </div>
+
+    <!-- Page content --->
+    <h1 class="w3-wide w3-text-red w3-animate-zoom w3-container w3-content w3-center" style="margin-top:7%;">Monitered Stock Closing Prices Versus Months</h1>
+    <div class="w3-content" style="max-width:2000px;margin-top:46px">
+        <div id="graph" class="aGraph" style="border: 2px solid red;margin-left:10%;margin-right:10%;"></div>
+    </div>
+        <!---Script that runs for Creating the graph from http://bl.ocks.org/d3noob/6bd13f974d6516f3e491--->
+        <script>
+            // Set the dimensions of the canvas / graph
+            var margin = {top: 30, right: 20, bottom: 30, left: 50},
+                width = 1000 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            // Parse the date / time
+            var parseDate = d3.time.format("%d-%b-%y").parse;
+
+            // Set the ranges
+            var x = d3.time.scale().range([0, width]);
+            var y = d3.scale.linear().range([height, 0]);
+
+            // Define the axes
+            var xAxis = d3.svg.axis().scale(x)
+                .orient("bottom").ticks(25);
+
+            var yAxis = d3.svg.axis().scale(y)
+                .orient("left").ticks(20);
+
+            // Define the line
+            var valueline = d3.svg.line()
+                .x(function(d) { return x(d.Date); })
+                .y(function(d) { return y(d.Close); });
+
+            // Adds the svg canvas
+            var svg = d3.select("#graph")
+                .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                    .attr("transform", 
+                          "translate(" + margin.left + "," + margin.top + ")");
+
+            // Get the data
+            d3.json("./april_data.json", function(error, data) {
+                data.forEach(function(d) {
+                    d.Date = parseDate(d.Date);
+                    d.Close = +d.Close;
+                });
+
+                // Scale the range of the data
+                x.domain(d3.extent(data, function(d) { return d.Date; }));
+                y.domain([0, d3.max(data, function(d) { return d.Close; })]);
+
+                // Add the valueline path.
+                svg.append("path")
+                    .attr("class", "line")
+                    .attr("d", valueline(data));
+
+                // Add the X Axis
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                // Add the Y Axis
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis);
+
+            });
+
+            var inter = setInterval(function() {
+                            updateData();
+                    }, 500); 
+
+            // ** Update data section (Called from the onclick)
+            function updateData() {
+
+                // Get the data again
+                d3.json("./april_data.json", function(error, data) {
+                    data.forEach(function(d) {
+                        d.Date = parseDate(d.Date);
+                        d.Close = +d.Close;
+                    });
+
+                    // Scale the range of the data again 
+                    x.domain(d3.extent(data, function(d) { return d.Date; }));
+                    y.domain([0, d3.max(data, function(d) { return d.Close; })]);
+
+                // Select the section we want to apply our changes to
+                var svg = d3.select("body").transition();
+
+                // Make the changes
+                    svg.select(".line")   // change the line
+                        .duration(750)
+                        .attr("d", valueline(data));
+                    svg.select(".x.axis") // change the x axis
+                        .duration(750)
+                        .call(xAxis);
+                    svg.select(".y.axis") // change the y axis
+                        .duration(750)
+                        .call(yAxis);
+
+                });
+            }
+        </script>
+    </body>
+</html>
