@@ -96,75 +96,77 @@ Secondly, a `<div>` is created to enclose the Canvas as it would be easy to resi
 
 Next goes, `Margin`, `Width` and `Height` of the Canvas. 
 
-            var margin = {top: 30, right: 20, bottom: 30, left: 50},
-                width = 1000 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+      var margin = {top: 30, right: 20, bottom: 30, left: 50},
+          width = 1000 - margin.left - margin.right,
+          height = 400 - margin.top - margin.bottom;
 
-            // Parse the date / time
-            var parseDate = d3.time.format("%d-%b-%y").parse;
+      // Parse the date / time
+      var parseDate = d3.time.format("%d-%b-%y").parse;
 
-            // Set the ranges
-            var x = d3.time.scale().range([0, width]);
-            var y = d3.scale.linear().range([height, 0]);
+      // Set the ranges
+      var x = d3.time.scale().range([0, width]);
+      var y = d3.scale.linear().range([height, 0]);
 
 We also setup the `axis`, `Line to be Drawn`(Since it is a line graph) and `svg` for the `#graph` division.
 
-            // Define the axes
-            var xAxis = d3.svg.axis().scale(x)
-                .orient("bottom").ticks(25);
+      // Define the axes
+      var xAxis = d3.svg.axis().scale(x)
+          .orient("bottom").ticks(25);
 
-            var yAxis = d3.svg.axis().scale(y)
-                .orient("left").ticks(20);
+      var yAxis = d3.svg.axis().scale(y)
+          .orient("left").ticks(20);
 
-            // Define the line
-            var valueline = d3.svg.line()
-                .x(function(d) { return x(d.Date); })
-                .y(function(d) { return y(d.Close); });
+      // Define the line
+      var valueline = d3.svg.line()
+          .x(function(d) { return x(d.Date); })
+          .y(function(d) { return y(d.Close); });
 
-            // Adds the svg canvas
-            var svg = d3.select("#graph")
-                .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                    .attr("transform", 
-                          "translate(" + margin.left + "," + margin.top + ")");
+      // Adds the svg canvas
+      var svg = d3.select("#graph")
+          .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+              .attr("transform", 
+                    "translate(" + margin.left + "," + margin.top + ")");
 
 #### Reading Data and Sketching the Graph
  Data is Downloaded from **[Google Finance](https://www.google.com/finance?q=nasdaq:goog)** in a `JSON` format but you can chhose any format you prefer.
  
  Sketching also includes `Scaling the X and Y Axes` of the input data. `X axes`, `Y axes` and `Valueline path` are also added to **svg**.
  
-            // Get the data
-            d3.json("./may_data.json", function(error, data) {
-                data.forEach(function(d) {
-                    d.Date = parseDate(d.Date);
-                    d.Close = +d.Close;
-                });
+      // Get the data
+      d3.json("./may_data.json", function(error, data) {
+          data.forEach(function(d) {
+              d.Date = parseDate(d.Date);
+              d.Close = +d.Close;
+          });
 
-                // Scale the range of the data
-                x.domain(d3.extent(data, function(d) { return d.Date; }));
-                y.domain([0, d3.max(data, function(d) { return d.Close; })]);
+          // Scale the range of the data
+          x.domain(d3.extent(data, function(d) { return d.Date; }));
+          y.domain([0, d3.max(data, function(d) { return d.Close; })]);
 
-                // Add the valueline path.
-                svg.append("path")
-                    .attr("class", "line")
-                    .attr("d", valueline(data));
+          // Add the valueline path.
+          svg.append("path")
+              .attr("class", "line")
+              .attr("d", valueline(data));
 
-                // Add the X Axis
-                svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis);
+          // Add the X Axis
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
 
-                // Add the Y Axis
-                svg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis);
+          // Add the Y Axis
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis);
 
-            });
+      });
 
  ## Running the App
  First Launch the `Server`. This can be done by 
  
      node HTTP_SERVER.js
+ Then, login to `http://localhost:8080/Startpage.html` and you have Succesfully Deployed the App.
+ 
